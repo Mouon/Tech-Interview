@@ -1,210 +1,49 @@
 ## 네트워크
 
-<details>
-  <summary><h3>1. 쿠키와 세션의 차이에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 세션 방식의 로그인 과정에 대해 설명해 주세요.</li>
-<li> HTTP의 특성인 Stateless에 대해 설명해 주세요.</li>
-<li> Stateless의 의미를 살펴보면, 세션은 적절하지 않은 인증 방법 아닌가요?</li>
-<li> 규모가 커져 서버가 여러 개가 된다면, 세션을 어떻게 관리할 수 있을까요?</li>
-</ul>
-</details>
+<details> <summary><h3>1. 쿠키와 세션의 차이에 대해 설명해 주세요.</h3></summary> <ul> <li>쿠키는 클라이언트에 저장되고, 세션은 서버에 저장됩니다. 쿠키는 사용자의 정보를 로컬에 저장해 요청마다 서버에 자동 전송되며, 세션은 서버가 클라이언트를 식별하기 위한 임시 ID(세션 ID)를 클라이언트에 전달하고 상태를 서버에 저장합니다.</li> <li>세션 방식의 로그인 과정에 대해 설명해 주세요. 사용자가 로그인하면 서버는 인증 후 세션을 생성하고, 고유한 세션 ID를 생성해 클라이언트에게 쿠키 형태로 전달합니다. 이후 요청마다 클라이언트는 해당 세션 ID를 보내고, 서버는 이를 기반으로 사용자 상태를 유지합니다.</li> <li>HTTP의 특성인 Stateless에 대해 설명해 주세요. HTTP는 기본적으로 상태를 유지하지 않는 Stateless 프로토콜입니다. 즉, 이전 요청과 다음 요청이 독립적으로 처리됩니다.</li> <li>Stateless의 의미를 살펴보면, 세션은 적절하지 않은 인증 방법 아닌가요? 세션은 HTTP의 Stateless한 특성을 보완하기 위한 수단입니다. 서버가 상태를 유지하지 않는 구조에서, 애플리케이션 계층에서 상태를 유지하기 위해 사용하는 방식입니다.</li> <li>규모가 커져 서버가 여러 개가 된다면, 세션을 어떻게 관리할 수 있을까요? Sticky Session, 세션 클러스터링, Redis와 같은 중앙 세션 저장소를 이용해 세션을 분산 환경에서도 일관되게 유지할 수 있습니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>2. HTTP 응답코드에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 401 (Unauthorized) 와 403 (Forbidden)은 의미적으로 어떤 차이가 있나요?</li>
-<li> 200 (ok) 와 201 (created) 의 차이에 대해 설명해 주세요.</li>
-<li> 필요하다면 저희가 직접 응답코드를 정의해서 사용할 수 있을까요? 예를 들어 285번 처럼요. </li>
-</ul>
-</details>
+<details> <summary><h3>2. HTTP 응답코드에 대해 설명해 주세요.</h3></summary> <ul> <li>401 (Unauthorized) 와 403 (Forbidden)은 의미적으로 어떤 차이가 있나요? 401은 인증이 필요하다는 의미로, 인증되지 않은 사용자의 요청을 거부합니다. 403은 인증은 되었지만 해당 자원에 접근할 권한이 없는 경우를 의미합니다.</li> <li>200 (OK) 와 201 (Created)의 차이에 대해 설명해 주세요. 200은 요청이 성공적으로 처리되었음을 의미하고, 201은 요청이 성공적으로 처리되었으며, 그 결과로 새로운 리소스가 생성되었음을 의미합니다.</li> <li>필요하다면 저희가 직접 응답코드를 정의해서 사용할 수 있을까요? 예를 들어 285번처럼요. HTTP 표준은 100~599 범위 내에서 정의된 상태 코드를 사용해야 하지만, 서버 내부적으로 비표준 코드를 사용하고 클라이언트가 이를 처리하도록 만들 수는 있습니다. 그러나 일반적으로 권장되지 않으며, 200~500 범위 내의 의미 있는 코드로 표현하는 것이 바람직합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>3. HTTP Method 에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> HTTP Method의 멱등성에 대해 설명해 주세요.</li>
-<li> GET과 POST의 차이는 무엇인가요?</li>
-<li> POST와 PUT, PATCH의 차이는 무엇인가요?</li>
-<li> HTTP 1.1 이후로, GET에도 Body에 데이터를 실을 수 있게 되었습니다. 그럼에도 불구하고 왜 아직도 이런 방식을 지양하는 것일까요?</li>
-</ul>
-</details>
+<details> <summary><h3>3. HTTP Method 에 대해 설명해 주세요.</h3></summary> <ul> <li>HTTP Method의 멱등성에 대해 설명해 주세요. 멱등성은 요청을 여러 번 수행해도 결과가 같다는 의미입니다. 예: GET, PUT, DELETE는 멱등성을 가지며, POST는 일반적으로 멱등하지 않습니다.</li> <li>GET과 POST의 차이는 무엇인가요? GET은 데이터를 URL에 담아 전송하며, 주로 조회 요청에 사용됩니다. POST는 데이터를 Body에 담아 전송하며, 리소스를 생성하거나 서버의 상태를 변경할 때 사용됩니다.</li> <li>POST와 PUT, PATCH의 차이는 무엇인가요? POST는 리소스를 생성할 때 사용하고, PUT은 전체 리소스를 대체합니다. PATCH는 리소스의 일부만 수정할 때 사용합니다.</li> <li>HTTP 1.1 이후로, GET에도 Body에 데이터를 실을 수 있게 되었습니다. 그럼에도 불구하고 왜 아직도 이런 방식을 지양하는 것일까요? 표준적으로 GET 요청의 Body는 무시되는 경우가 많고, 캐싱 및 프록시 처리에 문제가 발생할 수 있기 때문입니다. 또한 서버 구현마다 동작이 달라질 수 있어 호환성 이슈가 존재합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>4. HTTP에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 공개키와 대칭키에 대해 설명해 주세요.</li>
-<li> 왜 HTTPS Handshake 과정에서는 인증서를 사용하는 것 일까요?</li>
-<li> SSL과 TLS의 차이는 무엇인가요?</li>
-</ul>
-</details>
+<details> <summary><h3>4. HTTP에 대해 설명해 주세요.</h3></summary> <ul> <li>공개키와 대칭키에 대해 설명해 주세요. 공개키는 암호화에, 개인키는 복호화에 사용되는 비대칭 암호 방식입니다. 반면, 대칭키는 같은 키로 암호화와 복호화를 수행합니다.</li> <li>왜 HTTPS Handshake 과정에서는 인증서를 사용하는 것 일까요? 클라이언트가 서버의 신원을 검증하고, 중간자 공격을 방지하기 위해 서버의 인증서(공개키 포함)를 사용합니다.</li> <li>SSL과 TLS의 차이는 무엇인가요? TLS는 SSL의 후속 버전으로, 더 강력한 암호화와 보안 취약점 개선이 포함된 프로토콜입니다. 현재는 SSL 대신 TLS가 사용됩니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>5. 웹소켓과 소켓 통신의 차이에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 소켓과 포트의 차이가 무엇인가요?</li>
-<li> 여러 소켓이 있다고 할 때, 그 소켓의 포트 번호는 모두 다른가요?</li>
-<li> 사용자의 요청이 무수히 많아지면, 소켓도 무수히 생성되나요?</li>
-</ul>
-</details>
+<details> <summary><h3>5. 웹소켓과 소켓 통신의 차이에 대해 설명해 주세요.</h3></summary> <ul> <li>소켓과 포트의 차이가 무엇인가요? 소켓은 IP 주소와 포트 번호를 합친 네트워크 통신의 종단점이며, 포트는 한 IP 내에서 여러 애플리케이션을 식별하는 번호입니다.</li> <li>여러 소켓이 있다고 할 때, 그 소켓의 포트 번호는 모두 다른가요? 같은 IP에서 같은 포트는 중복될 수 없습니다. 하지만 서로 다른 IP나 프로토콜을 사용하면 동일한 포트 번호를 사용할 수 있습니다.</li> <li>사용자의 요청이 무수히 많아지면, 소켓도 무수히 생성되나요? TCP의 경우, 각 클라이언트 요청에 대해 개별 소켓이 생성됩니다. 하지만 서버는 커넥션 풀이나 이벤트 기반 처리를 통해 자원 관리를 합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>6. HTTP/1.1과 HTTP/2의 차이점은 무엇인가요?</h3></summary>
-<ul>
-<li> HOL Blocking 에 대해 설명해 주세요.</li>
-<li> HTTP/3.0의 주요 특징에 대해 설명해 주세요.</li>
-</ul>
-</details>
+<details> <summary><h3>6. HTTP/1.1과 HTTP/2의 차이점은 무엇인가요?</h3></summary> <ul> <li>HOL Blocking에 대해 설명해 주세요. Head-of-Line Blocking은 하나의 요청이 지연되면 뒤의 요청도 함께 지연되는 현상입니다. HTTP/2는 멀티플렉싱을 통해 이를 해결합니다.</li> <li>HTTP/3.0의 주요 특징에 대해 설명해 주세요. HTTP/3는 TCP 대신 UDP 기반의 QUIC 프로토콜을 사용하여 0-RTT 핸드셰이크, 멀티플렉싱, 패킷 손실 복구 성능을 향상시킵니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>7. TCP와 UDP의 차이에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> Checksum이 무엇인가요?</li>
-<li> TCP와 UDP 중 어느 프로토콜이 Checksum을 수행할까요?</li>
-<li> 그렇다면, Checksum을 통해 오류를 정정할 수 있나요? </li>
-<li> TCP가 신뢰성을 보장하는 방법에 대해 설명해 주세요.</li>
-<li> TCP의 혼잡 제어 처리 방법에 대해 설명해 주세요.</li>
-<li> 왜 HTTP는 TCP를 사용하나요?</li>
-<li> 그렇다면, 왜 HTTP/3 에서는 UDP를 사용하나요? 위에서 언급한 UDP의 문제가 해결되었나요?</li>
-<li> 그런데, 브라우저는 어떤 서버가 TCP를 쓰는지 UDP를 쓰는지 어떻게 알 수 있나요?</li>
-<li> 본인이 새로운 통신 프로토콜을 TCP나 UDP를 사용해서 구현한다고 하면, 어떤 기준으로 프로토콜을 선택하시겠어요?</li>
-</ul>
-</details>
+<details> <summary><h3>7. TCP와 UDP의 차이에 대해 설명해 주세요.</h3></summary> <ul> <li>Checksum이 무엇인가요? 전송 데이터의 무결성을 확인하기 위한 값으로, 데이터 오류를 감지할 수 있습니다.</li> <li>TCP와 UDP 중 어느 프로토콜이 Checksum을 수행할까요? 둘 다 Checksum을 수행하지만, TCP는 강제이고 UDP는 선택 사항입니다.</li> <li>Checksum을 통해 오류를 정정할 수 있나요? Checksum은 오류를 ‘검출’할 수는 있지만, ‘정정’할 수는 없습니다.</li> <li>TCP가 신뢰성을 보장하는 방법에 대해 설명해 주세요. TCP는 순서 보장, 재전송, 흐름 제어, 혼잡 제어 등의 메커니즘으로 신뢰성을 보장합니다.</li> <li>TCP의 혼잡 제어 처리 방법에 대해 설명해 주세요. 슬로우 스타트, 혼잡 회피, 패킷 손실 시 다중 감소 방식 등을 통해 네트워크 혼잡을 조절합니다.</li> <li>왜 HTTP는 TCP를 사용하나요? 신뢰성과 순서 보장이 중요하기 때문입니다. 텍스트 기반 통신에서는 손실이나 순서 뒤바뀜이 치명적입니다.</li> <li>HTTP/3에서는 왜 UDP를 사용하나요? 위에서 언급한 UDP의 문제가 해결되었나요? UDP 위에 QUIC이라는 계층을 덧씌워 신뢰성과 순서를 애플리케이션 계층에서 해결함으로써, 속도 향상과 동시에 안정성 확보가 가능합니다.</li> <li>브라우저는 어떤 서버가 TCP를 쓰는지 UDP를 쓰는지 어떻게 알 수 있나요? 브라우저는 DNS와 ALPN(Application Layer Protocol Negotiation)을 통해 서버가 지원하는 프로토콜을 확인합니다.</li> <li>새로운 프로토콜을 TCP/UDP 중 하나로 구현한다면, 어떤 기준으로 선택하시겠어요? 신뢰성, 순서 보장, 실시간성, 구현 복잡도 등을 기준으로 판단합니다. 예: 실시간 통신은 UDP, 데이터 정확성이 중요하면 TCP.</li> </ul> </details>
 
-<details>
-  <summary><h3>8. DHCP가 무엇인지 설명해 주세요.</h3></summary>
-<ul>
-<li> DHCP는 몇 계층 프로토콜인가요? </li>
-<li> DHCP는 어떻게 동작하나요?</li>
-<li> DHCP에서 UDP를 사용하는 이유가 무엇인가요?</li>
-<li> DHCP에서, IP 주소 말고 추가로 제공해주는 정보가 있나요?</li>
-<li> DHCP의 유효기간은 얼마나 긴가요?</li>
-</ul>
-</details>
+<details> <summary><h3>8. DHCP가 무엇인지 설명해 주세요.</h3></summary> <ul> <li>DHCP는 몇 계층 프로토콜인가요? DHCP는 애플리케이션 계층의 프로토콜입니다.</li> <li>DHCP는 어떻게 동작하나요? 1) 클라이언트가 브로드캐스트로 DHCP Discover 메시지를 보냅니다. 2) 서버는 DHCP Offer 메시지를 보냅니다. 3) 클라이언트는 원하는 IP에 대해 DHCP Request를 보냅니다. 4) 서버는 DHCP Acknowledgement로 할당을 확정합니다.</li> <li>DHCP에서 UDP를 사용하는 이유가 무엇인가요? TCP는 연결을 맺기 위해 IP가 필요하지만, DHCP는 IP 할당 전 단계에서 작동하므로, 연결이 불필요한 UDP를 사용합니다.</li> <li>DHCP에서, IP 주소 말고 추가로 제공해주는 정보가 있나요? 서브넷 마스크, 게이트웨이, DNS 서버 주소, 리스 기간 등 다양한 네트워크 설정 정보를 제공합니다.</li> <li>DHCP의 유효기간은 얼마나 긴가요? 리스 기간은 서버 설정에 따라 다르며, 몇 분에서 며칠까지 설정할 수 있습니다. 중간에 갱신이 가능합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>9. IP 주소는 무엇이며, 어떤 기능을 하고 있나요?</h3></summary>
-<ul>
-<li> IPv6는 IPv4의 주소 고갈 문제를 해결하기 위해 만들어졌지만, 아직도 수많은 기기가 IPv4를 사용하고 있습니다. 고갈 문제를 어떻게 해결할 수 있을까요?</li>
-<li> IPv4와 IPv6의 차이에 대해 설명해 주세요.</li>
-<li> 수많은 사람들이 유동 IP를 사용하고 있지만, 수많은 공유기에서는 고정 주소를 제공하는 기능이 이미 존재합니다. 어떻게 가능한 걸까요?</li>
-<li> IPv4를 사용하는 장비와 IPv6를 사용하는 같은 네트워크 내에서 통신이 가능한가요? 가능하다면 어떤 방법을 사용하나요? </li>
-<li> IP가 송신자와 수신자를 정확하게 전송되는 것을 보장해 주나요?</li>
-<li> IPv4에서 수행하는 Checksum과 TCP에서 수행하는 Checksum은 어떤 차이가 있나요?</li>
-<li> TTL(Hop Limit)이란 무엇인가요? </li>
-<li> IP 주소와 MAC 주소의 차이에 대해 설명해 주세요.</li>
-</ul>
-</details>
+<details> <summary><h3>9. IP 주소는 무엇이며, 어떤 기능을 하고 있나요?</h3></summary> <ul> <li>IPv6는 IPv4의 주소 고갈 문제를 해결하기 위해 만들어졌지만, 아직도 수많은 기기가 IPv4를 사용하고 있습니다. 고갈 문제를 어떻게 해결할 수 있을까요? NAT(Network Address Translation), 사설 IP, 재할당 등의 기술로 IP 재사용이 가능하게 하여 주소 고갈 문제를 완화하고 있습니다.</li> <li>IPv4와 IPv6의 차이에 대해 설명해 주세요. IPv4는 32비트 주소 체계로 약 43억 개의 주소를 지원하고, IPv6는 128비트로 사실상 무한에 가까운 주소 공간을 제공합니다. 또한, IPv6는 보안, QoS 등을 기본 내장합니다.</li> <li>수많은 사람들이 유동 IP를 사용하고 있지만, 수많은 공유기에서는 고정 주소를 제공하는 기능이 이미 존재합니다. 어떻게 가능한 걸까요? 공유기는 내부 네트워크에 대해 사설 IP를 고정으로 할당하고, NAT를 통해 외부에는 하나의 공인 IP만 사용합니다.</li> <li>IPv4를 사용하는 장비와 IPv6를 사용하는 같은 네트워크 내에서 통신이 가능한가요? 가능하다면 어떤 방법을 사용하나요? 직접 통신은 불가능하지만, 터널링, 듀얼 스택 방식 등을 통해 서로 다른 주소 체계 간의 통신을 가능하게 할 수 있습니다.</li> <li>IP가 송신자와 수신자를 정확하게 전송되는 것을 보장해 주나요? 아니요. IP는 비신뢰성 프로토콜이며, 전송의 성공을 보장하지 않습니다. 신뢰성은 상위 계층인 TCP가 담당합니다.</li> <li>IPv4에서 수행하는 Checksum과 TCP에서 수행하는 Checksum은 어떤 차이가 있나요? IPv4의 Checksum은 IP 헤더에만 적용되며, TCP Checksum은 헤더와 데이터 전체를 검사하여 더 강력한 무결성 검사를 수행합니다.</li> <li>TTL(Hop Limit)이란 무엇인가요? 패킷이 네트워크를 몇 번(몇 개의 라우터)을 통과할 수 있는지를 제한하는 값입니다. 루프 방지 및 패킷 유효 시간 설정에 사용됩니다.</li> <li>IP 주소와 MAC 주소의 차이에 대해 설명해 주세요. IP는 네트워크 계층에서 논리적 주소이며, MAC은 데이터 링크 계층의 물리적 주소입니다. IP는 네트워크 경로를 따라 변경될 수 있지만, MAC은 NIC에 고정됩니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>10. OSI 7계층에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> Transport Layer와, Network Layer의 차이에 대해 설명해 주세요.</li>
-<li> L3 Switch와 Router의 차이에 대해 설명해 주세요.</li>
-<li> 각 Layer는 패킷을 어떻게 명칭하나요? 예를 들어, Transport Layer의 경우 Segment라 부릅니다.</li>
-<li> 각각의 Header의 Packing Order에 대해 설명해 주세요.</li>
-<li> ARP에 대해 설명해 주세요.</li>
-</ul>
-</details>
+<details> <summary><h3>10. OSI 7계층에 대해 설명해 주세요.</h3></summary> <ul> <li>Transport Layer와, Network Layer의 차이에 대해 설명해 주세요. Transport Layer는 포트 단위의 통신 및 신뢰성(예: TCP)을 제공하고, Network Layer는 IP 주소 기반의 라우팅과 전송을 담당합니다.</li> <li>L3 Switch와 Router의 차이에 대해 설명해 주세요. 둘 다 3계층 라우팅이 가능하지만, L3 스위치는 LAN 내에서 빠른 라우팅이 가능하며, 라우터는 WAN 간 통신이나 NAT, 방화벽 등의 기능을 더 포함합니다.</li> <li>각 Layer는 패킷을 어떻게 명칭하나요? - 7~5계층: 데이터 - 4계층(Transport): 세그먼트 - 3계층(Network): 패킷 - 2계층(Data Link): 프레임 - 1계층(Physical): 비트</li> <li>각각의 Header의 Packing Order에 대해 설명해 주세요. 데이터 → TCP/UDP 헤더 → IP 헤더 → MAC 헤더 순으로 캡슐화되어 전송됩니다.</li> <li>ARP에 대해 설명해 주세요. Address Resolution Protocol은 IP 주소를 이용해 같은 네트워크 내의 MAC 주소를 조회하는 프로토콜입니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>11. 3-Way Handshake에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> ACK, SYN 같은 정보는 어떻게 전달하는 것 일까요?</li>
-<li> 2-Way Handshaking 를 하지않는 이유에 대해 설명해 주세요.</li>
-<li> 두 호스트가 동시에 연결을 시도하면, 연결이 가능한가요? 가능하다면 어떻게 통신 연결을 수행하나요?</li>
-<li> SYN Flooding 에 대해 설명해 주세요.</li>
-<li> 위 질문과 모순될 수 있지만, 3-Way Handshake의 속도 문제 때문에 이동 수를 줄이는 0-RTT 기법을 많이 적용하고 있습니다. 어떤 방식으로 가능한 걸까요?</li>
-</ul>
-</details>
+<details> <summary><h3>11. 3-Way Handshake에 대해 설명해 주세요.</h3></summary> <ul> <li>ACK, SYN 같은 정보는 어떻게 전달하는 것 일까요? TCP 헤더에 있는 플래그 비트를 통해 SYN, ACK, FIN 등의 제어 정보를 전달합니다.</li> <li>2-Way Handshaking를 하지 않는 이유에 대해 설명해 주세요. 상호 동기화가 되지 않아 패킷 유실이나 중복, 위조에 대한 처리가 어렵기 때문입니다. 3-Way Handshake는 이를 보완합니다.</li> <li>두 호스트가 동시에 연결을 시도하면, 연결이 가능한가요? 가능하다면 어떻게 통신 연결을 수행하나요? 가능합니다. 양쪽 모두 SYN을 보내고, 서로 ACK를 보내는 식으로 동시에 3-Way Handshake가 완료됩니다.</li> <li>SYN Flooding에 대해 설명해 주세요. 공격자가 SYN만 보내고 응답하지 않아, 서버의 리소스를 고갈시키는 DoS 공격입니다.</li> <li>3-Way Handshake의 속도 문제 때문에 이동 수를 줄이는 0-RTT 기법을 많이 적용하고 있습니다. 어떤 방식으로 가능한 걸까요? 이전 연결에서 공유한 세션 정보를 기반으로 최초 요청과 데이터를 동시에 보내, 최초 요청에 대한 대기 시간을 줄입니다. QUIC 등에서 사용됩니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>12. 4-Way Handshake에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 패킷이 4-way handshake 목적인지 어떻게 파악할 수 있을까요?</li>
-<li> 빨리 끊어야 할 경우엔, (즉, 4-way Handshake를 할 여유가 없다면) 어떻게 종료할 수 있을까요?</li>
-<li> 4-Way Handshake 과정에서 중간에 한쪽 네트워크가 강제로 종료된다면, 반대쪽은 이를 어떻게 인식할 수 있을까요?</li>
-<li> 왜 종료 후에 바로 끝나지 않고, TIME_WAIT 상태로 대기하는 것 일까요? </li>
-</ul>
-</details>
+<details> <summary><h3>12. 4-Way Handshake에 대해 설명해 주세요.</h3></summary> <ul> <li>패킷이 4-way handshake 목적인지 어떻게 파악할 수 있을까요? TCP 헤더의 FIN, ACK 플래그를 통해 종료 시퀀스를 구분합니다.</li> <li>빨리 끊어야 할 경우엔, (즉, 4-way Handshake를 할 여유가 없다면) 어떻게 종료할 수 있을까요? RST 플래그를 사용해 강제로 연결을 종료할 수 있습니다.</li> <li>4-Way Handshake 과정에서 중간에 한쪽 네트워크가 강제로 종료된다면, 반대쪽은 이를 어떻게 인식할 수 있을까요? 응답이 오지 않거나 타임아웃이 발생하면 연결이 끊긴 것으로 간주하고 종료 처리를 합니다.</li> <li>왜 종료 후에 바로 끝나지 않고, TIME_WAIT 상태로 대기하는 것 일까요? 재전송된 패킷이 뒤늦게 도착했을 때 다른 연결에 영향을 주지 않기 위해 일정 시간 동안 대기합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>13. www.github.com을 브라우저에 입력하고 엔터를 쳤을 때, 네트워크 상 어떤 일이 일어나는지 최대한 자세하게 설명해 주세요.</h3></summary>
-<ul>
-<li> DNS 쿼리를 통해 얻어진 IP는 어디를 가리키고 있나요?</li>
-<li> Web Server와 Web Application Server의 차이에 대해 설명해 주세요. </li>
-<li> URL, URI, URN은 어떤 차이가 있나요? </li>
-</ul>
-</details>
+<details> <summary><h3>13. www.github.com을 브라우저에 입력하고 엔터를 쳤을 때, 네트워크 상 어떤 일이 일어나는지 최대한 자세하게 설명해 주세요.</h3></summary> <ul> <li>DNS 쿼리를 통해 얻어진 IP는 어디를 가리키고 있나요? 도메인(github.com)에 해당하는 실제 서버의 공인 IP 주소를 반환합니다. 이는 DNS 서버에 따라 캐싱되거나, 계층적으로 조회됩니다.</li> <li>Web Server와 Web Application Server의 차이에 대해 설명해 주세요. Web Server는 정적 리소스(HTML, CSS 등)를 처리하고, WAS는 동적 로직(JSP, Servlet 등)을 처리합니다. WAS는 Web Server 뒤에 위치하여 복잡한 비즈니스 로직을 수행합니다.</li> <li>URL, URI, URN은 어떤 차이가 있나요? - URI: 리소스를 식별하는 전체 개념 (URL과 URN 포함) - URL: 위치(주소)를 포함한 리소스 식별자 - URN: 이름만으로 리소스를 식별하는 식별자 (ex: ISBN)</li> </ul> </details>
 
-<details>
-  <summary><h3>14. DNS에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> DNS는 몇 계층 프로토콜인가요? </li>
-<li> UDP와 TCP 중 어떤 것을 사용하나요?</li>
-<li> DNS Recursive Query, Iterative Query가 무엇인가요?</li>
-<li> DNS 쿼리 과정에서 손실이 발생한다면, 어떻게 처리하나요?</li>
-<li> 캐싱된 DNS 쿼리가 잘못 될 수도 있습니다. 이 경우, 어떻게 에러를 보정할 수 있나요?</li>
-<li> DNS 레코드 타입 중 A, CNAME, AAAA의 차이에 대해서 설명해주세요.</li>
-<li> hosts 파일은 어떤 역할을 하나요? DNS와 비교하였을 때 어떤 것이 우선순위가 더 높나요?</li>
-</ul>
-</details>
+<details> <summary><h3>14. DNS에 대해 설명해 주세요.</h3></summary> <ul> <li>DNS는 몇 계층 프로토콜인가요? 애플리케이션 계층의 프로토콜입니다.</li> <li>UDP와 TCP 중 어떤 것을 사용하나요? 일반적으로는 UDP를 사용하지만, 응답이 크거나 전송 오류가 있을 때 TCP로 전환합니다.</li> <li>DNS Recursive Query, Iterative Query가 무엇인가요? Recursive: 클라이언트를 대신해 DNS 서버가 모든 과정을 처리 Iterative: 각 DNS 서버가 다음 서버를 알려주고, 클라이언트가 직접 순차적으로 요청</li> <li>DNS 쿼리 과정에서 손실이 발생한다면, 어떻게 처리하나요? UDP는 손실될 수 있으므로, 일정 시간 안에 응답이 없으면 재전송합니다. 이후 TCP로 재요청할 수 있습니다.</li> <li>캐싱된 DNS 쿼리가 잘못 될 수도 있습니다. 이 경우, 어떻게 에러를 보정할 수 있나요? TTL(Time to Live)이 만료되거나, 수동으로 DNS 캐시를 삭제하면 새로운 쿼리로 최신 정보를 가져옵니다.</li> <li>DNS 레코드 타입 중 A, CNAME, AAAA의 차이에 대해서 설명해주세요. - A: IPv4 주소 - AAAA: IPv6 주소 - CNAME: 도메인 별칭 (별명을 본래 주소로 매핑)</li> <li>hosts 파일은 어떤 역할을 하나요? DNS와 비교하였을 때 어떤 것이 우선순위가 더 높나요? 로컬에서 도메인을 IP에 직접 매핑하며, DNS보다 우선순위가 높습니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>15. SOP 정책에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> CORS 정책이 무엇인가요?</li>
-<li> Preflight에 대해 설명해 주세요.</li>
-</ul>
-</details>
 
-<details>
-  <summary><h3>16. Stateless와 Connectionless에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 왜 HTTP는 Stateless 구조를 채택하고 있을까요?</li>
-<li> Connectionless의 논리대로면 성능이 되게 좋지 않을 것으로 보이는데, 해결 방법이 있을까요?</li>
-<li> TCP의 keep-alive와 HTTP의 keep-alive의 차이는 무엇인가요?</li>
-</ul>
-</details>
+<details> <summary><h3>15. SOP 정책에 대해 설명해 주세요.</h3></summary> <ul> <li>CORS 정책이 무엇인가요? Cross-Origin Resource Sharing. 다른 도메인 간의 자원 공유를 가능하게 하기 위한 HTTP 기반 정책입니다.</li> <li>Preflight에 대해 설명해 주세요. 실제 요청 전, 서버에 OPTIONS 요청을 보내 CORS 허용 여부를 확인하는 사전 요청입니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>17. 라우터 내의 포워딩 과정에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 라우팅과 포워딩의 차이는 무엇인가요?</li>
-<li> 라우팅 알고리즘에 대해 설명해 주세요.</li>
-<li> 포워딩 테이블의 구조에 대해 설명해 주세요.</li>
-</ul>
-</details>
 
-<details>
-  <summary><h3>18. 로드밸런서가 무엇인가요?</h3></summary>
-<ul>
-<li> L4 로드밸런서와, L7 로드밸런서의 차이에 대해 설명해 주세요.</li>
-<li> 로드밸런서 알고리즘에 대해 설명해 주세요.</li>
-<li> 로드밸런싱 대상이 되는 장치중 일부 장치가 문제가 생겨 접속이 불가능하다고 가정해 봅시다. 이 경우, 로드밸런서가 해당 장비로 요청을 보내지 않도록 하려면 어떻게 해야 할까요?</li>
-<li> 로드밸런서 장치를 사용하지 않고, DNS를 활용해서 유사하게 로드밸런싱을 하는 방법에 대해 설명해 주세요.</li>
-</ul>
-</details>
+<details> <summary><h3>16. Stateless와 Connectionless에 대해 설명해 주세요.</h3></summary> <ul> <li>왜 HTTP는 Stateless 구조를 채택하고 있을까요? 확장성과 단순성을 확보하기 위함입니다. 요청 간 독립성이 높아지고 서버 부하가 줄어듭니다.</li> <li>Connectionless의 논리대로면 성능이 되게 좋지 않을 것으로 보이는데, 해결 방법이 있을까요? Keep-Alive, 캐싱, 세션 및 토큰 기반 인증 등으로 성능과 상태 유지를 보완합니다.</li> <li>TCP의 keep-alive와 HTTP의 keep-alive의 차이는 무엇인가요? TCP의 keep-alive는 연결 자체를 유지하기 위한 것이고, HTTP의 keep-alive는 여러 요청을 같은 TCP 연결 위에서 처리하여 효율을 높입니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>19. 서브넷 마스크와, 게이트웨이에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> NAT에 대해 설명해 주세요. </li>
-<li> 서브넷 마스크의 표현 방식에 대해 설명해 주세요.</li>
-<li> 그렇다면, 255.0.255.0 같은 꼴의 서브넷 마스크도 가능한가요?</li>
-</ul>
-</details>
 
-<details>
-  <summary><h3>20. 멀티플렉싱과 디멀티플렉싱에 대해 설명해 주세요.</h3></summary>
-<ul>
-<li> 디멀티플렉싱의 과정에 대해 설명해 주세요.</li>
-</ul>
-</details>
+<details> <summary><h3>17. 라우터 내의 포워딩 과정에 대해 설명해 주세요.</h3></summary> <ul> <li>라우팅과 포워딩의 차이는 무엇인가요? 라우팅은 최적 경로를 결정하는 과정이고, 포워딩은 결정된 경로를 따라 실제 패킷을 전송하는 과정입니다.</li> <li>라우팅 알고리즘에 대해 설명해 주세요. Distance Vector (RIP), Link State (OSPF), Hybrid (EIGRP) 등이 있으며, 각 노드는 경로 비용 기반으로 테이블을 구성합니다.</li> <li>포워딩 테이블의 구조에 대해 설명해 주세요. 목적지 주소, 넥스트 홉(next hop), 인터페이스 정보 등을 담고 있으며, 이를 바탕으로 패킷을 전달합니다.</li> </ul> </details>
 
-<details>
-  <summary><h3>21. XSS에 대해서 설명해 주세요.</h3></summary>
-<ul>
-<li> CSRF랑 XSS는 어떤 차이가 있나요?</li>
-<li> XSS는 프론트엔드에서만 막을 수 있나요?</li>
-</ul>
-</details>
+
+<details> <summary><h3>18. 로드밸런서가 무엇인가요?</h3></summary> <ul> <li>L4 로드밸런서와, L7 로드밸런서의 차이에 대해 설명해 주세요. L4는 TCP/UDP 기반의 네트워크 계층에서 동작하고, L7은 HTTP 등의 애플리케이션 계층에서 동작하여 URI, 헤더 등을 기반으로 라우팅합니다.</li> <li>로드밸런서 알고리즘에 대해 설명해 주세요. Round Robin, Least Connections, IP Hash, Weighted Round Robin 등이 있으며 상황에 따라 선택됩니다.</li> <li>일부 장치가 문제가 생겼다면? 헬스 체크(Health Check)를 주기적으로 수행해 비정상 노드를 자동으로 제외시킵니다.</li> <li>DNS를 활용한 로드밸런싱 방법은? 하나의 도메인에 대해 여러 IP를 등록하고, DNS가 라운드로빈 방식 등으로 분산시키는 구조입니다.</li> </ul> </details>
+
+
+<details> <summary><h3>19. 서브넷 마스크와, 게이트웨이에 대해 설명해 주세요.</h3></summary> <ul> <li>NAT에 대해 설명해 주세요. 사설 IP와 공인 IP를 변환해주는 기술로, 다수의 장치가 하나의 공인 IP로 외부와 통신할 수 있도록 합니다.</li> <li>서브넷 마스크의 표현 방식에 대해 설명해 주세요. CIDR 표기법(예: /24)과 10진수 점 표기법(예: 255.255.255.0)이 있습니다. 이는 네트워크/호스트 비트를 구분합니다.</li> <li>255.0.255.0 같은 꼴의 서브넷 마스크도 가능한가요? 불가능합니다. 서브넷 마스크는 연속된 1과 0으로만 구성되어야 하므로, 중간에 1과 0이 섞이면 안 됩니다.</li> </ul> </details>
+
+<details> <summary><h3>20. 멀티플렉싱과 디멀티플렉싱에 대해 설명해 주세요.</h3></summary> <ul> <li>디멀티플렉싱의 과정에 대해 설명해 주세요. 수신 측에서 IP, 포트 등의 정보를 기반으로 들어온 데이터를 각 애플리케이션에 전달하는 과정입니다. 소켓 정보 기반으로 식별합니다.</li> </ul> </details>
+
+
+<details> <summary><h3>21. XSS에 대해서 설명해 주세요.</h3></summary> <ul> <li>CSRF랑 XSS는 어떤 차이가 있나요? XSS는 클라이언트 측 스크립트를 삽입해 공격하고, CSRF는 사용자의 권한을 악용해 요청을 보내는 공격입니다.</li> <li>XSS는 프론트엔드에서만 막을 수 있나요? 아니요. 서버에서도 입력 검증과 출력 이스케이프를 통해 방어해야 하며, Content-Security-Policy 등의 보안 헤더도 중요합니다.</li> </ul> </details>
